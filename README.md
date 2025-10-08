@@ -2,6 +2,10 @@ Sudedito
 ========
 The sudoers editor.
 
+Documentation
+-------------
+Read [documentation for Sudedito](doc/sudedito.md).
+
 Building
 -----------
 Before building the project, you must install the following packages:
