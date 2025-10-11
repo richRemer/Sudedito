@@ -18,7 +18,8 @@
 }
 - (void) initWindow {
     NSRect rect = NSMakeRect(0, 0, 100, 100);
-    unsigned int styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask;
+    unsigned int styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask
+        | NSWindowStyleMaskResizable;
 
     window = [[NSWindow alloc] initWithContentRect: rect
         styleMask: styleMask
