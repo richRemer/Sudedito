@@ -1,0 +1,95 @@
+## Architecture
+- single app
+- multiple document
+- open document from command line
+
+### CLI Interface
+```sh
+sudo openapp /usr/share/GNUstep/Sudedito.app --args /etc/sudoers.d/10-sudo-nopass
+```
+
+```c
+void main(int argc, char* argv[]) {
+    // argv contains
+    //   /usr/lib/x86_64-linux-gnu/GNUstep/Applications/Sudedito.app/Sudedito
+    //   /etc/sudoers.d/10-sudo-nopass
+}
+```
+
+```sh
+alias sudedito='openapp /usr/share/GNUstep/Sudedito.app --args'
+sudo sudedito /etc/sudoers.d/10-sudo-nopass
+sudedito --help
+```
+
+```
+Usage:
+    sudedito [<file> ...]
+    sudedito --help
+```
+
+### Main Window
+/etc/sudoers (Document)
+    - Set Defaults: env_reset
+    - Set Defaults: mail_badpass
+    - Set Defaults: secure_path=...
+    - Set Defaults: use_pty
+    - User root ALL=(ALL:ALL) ALL
+    - Group sudo ALL=(ALL:ALL) ALL
+    - Include /etc/sudoers.d/
+        - 10-sudo-nopass
+            - Group sudo ALL=(ALL:ALL) NOPASSWD: ALL
+        - README (no rules)
+
+[↓More Priority] [↑Less Priority] [+Add Rule] [-Delete Rule]
+
+### Rule Panel
+        [ Select: Defaults|Alias|User Spec|Include ]
+        --------------------------------------------
+        |                                          |
+        |                                          |
+        |                                          |
+        --------------------------------------------
+
+#### Defaults Rule Panel
+                        [ Defaults ]
+        --------------------------------------------
+        | Scope [ Global ]                         |
+        | ---------------------------------------- |
+        | |always_query_group_plugin|   |on      | |
+        | |command_timeout          |   |7       | |
+        | |editor                   |   |/bin/...| |
+        |                                          |
+        | [+Add Default] [-Delete Default]         |
+        --------------------------------------------
+
+Or perhaps adding/deleting is implicit?
+    - click empty name text field to begin editing
+    - delete name from text field to remove setting
+    - auto-complete names
+        - is this complicated under GNUstep?
+        - is there a library to handle this?
+
+#### Defaults Alias Panel
+
+#### Defaults User Spec Panel
+
+#### Defaults Include Panel
+
+### Other Considerations
+
+#### Multiple Editors For One Document
+- editing same file as other document?
+- DBus activation? (no; not GNUstep)
+- watch for file system changes and sync?
+- disable editing of included documents?
+    - open in new window
+
+#### Present User/Group Trees
+This doesn't map well; user/group rules are applied together while this
+presentation implies they are somehow separate.
+
+User
+    - root
+Group
+    - sudo
